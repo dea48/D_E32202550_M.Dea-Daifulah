@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\backend\DashboardController;
-
+use App\Http\Controllers\HomeControler;
+Use App\Http\Controllers\Backend\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,38 +18,36 @@ use App\Http\Controllers\backend\DashboardController;
 Route::get('/', function () {
     return view('welcome');
 });
+/*Route::get('/hello', function () {
+    return 'Hello World';
+});
+Route::get('belajar',function() {
+	echo'<h1>Hello World</h1>' ;
+	echo'<p>Sedang Belajar Laravel</p>' ;
+});
+Route::get('page/{nomor}',function($nomor){
+	return 'ini halaman ke-'.$nomor;
+});
+Route::get('gambar',function(){
+	return view('gambar');
+});
 
+route::get('/user','DetailProfileController@index');
 
+route::resource('user','DetailProfileController');
 
-//Route::get('/dea', function () {
-//    return 'welcome to my blok';
-//});
+route::get("/home",function(){
+	return view("anashomepage");
+});
 
-
-//Route::get('/belajar', function () {
-    
-//echo '<h1>Hello World</h1>';		
-//echo '<p>Sedang Belajar Laravel</p>';
-//});
-
-
-//Route::get('page/{nomor}', function ($nomor) {
-//    return 'ini halaman ke-' .$nomor;
-//});
-
-
-
-
-
-//Route::get('/home', function () {
-//    return view('frontend.home');
-//});
-//Route::get('/dashboard', function () {
-//    return view('backend.dashboard');
-//});
-
-
-
+Route::group(['namespace' => 'Frontend'], function()
+	{
+		Route::resource('home', 'HomeController');
+	});
+Route::group(['namespace' => 'Backend'], function()
+	{
+		Route::resource('dashboard', 'DashboardController');
+	});*/
 
 Auth::routes();
 
@@ -65,4 +62,14 @@ Route::group(['middleware' =>['web','auth']],function () {
 		{
 			Route::resource('dashboard','DashboardController');
 		});
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware'=> ['web','auth']], function () {
+	Route::group(['namespace'=>'Backend'], function()
+	{
+		Route::resource('dashboard','DashboardController');
+		Route::resource('pendidikan','PendidikanController');
+	});
 });
